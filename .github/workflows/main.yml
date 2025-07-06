@@ -1,0 +1,28 @@
+name: Build and Deploy React App  # A name for the Workflow
+
+on:
+  push:
+    branches: main  # Specifies that the workflow should be triggered on a Git push event to the main branch
+  pull_request:
+    branches: main # Also trigger on pull requests targeting the main branch
+
+jobs:
+  build_and_test:  # The name of the job
+    runs-on: ubuntu-latest  # Specifies that the job should run on the latest version of the Ubuntu operating system
+
+    steps:
+      - uses: actions/checkout@v4  # Checks out the source code repository
+      - name: Set up Node.js  # Use the setup-node action to install Node.js
+        uses: actions/setup-node@v4  # Use the Node.js version 20
+        with:
+          node-version: '20'  # Specify the Node.js version
+          cache: 'npm' # Configure caching for npm dependencies
+
+      - name: Install dependencies  # Install the project dependencies using npm ci
+        run: npm install
+
+      # - name: Run tests  # Execute unit tests
+      #   run: npm test
+
+      - name: Build  # Builds the React application
+        run: npm run build
